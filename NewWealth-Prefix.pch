@@ -1,0 +1,18 @@
+//
+//  NewWealth-Prefix.pch
+//  NewWealthPublicOpinion
+//
+//  Created by XAYQ-FanXL on 16/6/7.
+//  Copyright © 2016年 XAYQ-FanXL. All rights reserved.
+//
+
+#ifndef NewWealth_Prefix_pch
+#define NewWealth_Prefix_pch
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+
+#import "AppHeader.h"
+#import "ConstHeader.h"
+
+#endif /* NewWealth_Prefix_pch */
