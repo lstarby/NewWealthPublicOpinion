@@ -18,6 +18,7 @@
 + (void)showError:(NSString *)error;
 + (void)showTextHUD:(NSString *)text;
 
++ (MBProgressHUD *)showMessage:(NSString *)message toView:(UIView *)view;
 + (MBProgressHUD *)showMessage:(NSString *)message;
 
 + (void)hideHUDForView:(UIView *)view;

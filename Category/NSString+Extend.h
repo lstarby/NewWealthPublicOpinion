@@ -31,4 +31,6 @@
 //获取展示时间
 - (NSString *)getTimeStr;
 
+//获取有效URL
+- (NSString *)encodeToPercentEscapeString;
 @end

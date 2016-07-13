@@ -14,6 +14,9 @@
 #import <DBImageView/DBImageView.h>
 #import "NSString+Extend.h"
 #import "UtilsHeader.h"
+#import "UserHandler.h"
+#import "NSString+Extend.h"
+#import "WebViewController.h"
 
 @interface OtherNewsViewController ()<UITableViewDelegate, UITableViewDataSource>
 
@@ -59,7 +62,7 @@ static NSString *otherNewsCell   = @"OtherNewsTableViewCell";
     __weak typeof(self) weakSelf = self;
     [self.tableView addHeaderRefresh:^{
         weakSelf.currentPage = 1;
-        [weakSelf.dataSource removeAllObjects];
+        
         [weakSelf requestInformation];
         
     } beginRefreshing:NO];
@@ -80,6 +83,9 @@ static NSString *otherNewsCell   = @"OtherNewsTableViewCell";
             if ([returnData[kStatus] intValue] == kSuccess) {
                 NSError* error = nil;
                 NSArray *array = [returnData objectForKey:@"items"];
+                if (weakSelf.currentPage == 1) {
+                    [weakSelf.dataSource removeAllObjects];
+                }
                 for (NSDictionary *dict in array)
                 {
                     InfoModel *info = [[InfoModel alloc] initWithDictionary:dict error:&error];
@@ -181,6 +187,28 @@ static NSString *otherNewsCell   = @"OtherNewsTableViewCell";
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
+    InfoModel *info = self.dataSource[indexPath.row];
+    NSString *url;
+    if ([self.userChannel.inforType isEqualToString:@"kuaixun"] && [info.zxType isEqualToString:@"1"]) {
+        url = info.url;
+    } else {
+        NSString *preUrl;
+        if ([self.userChannel.type isEqualToString:@"default"]) {
+            preUrl = [UserHandler sharedUserHandler].urlType[@"information"];
+            if (preUrl == nil || [preUrl isEqualToString:@""]) {
+                return;
+            }
+        } else {
+            preUrl = [UserHandler sharedUserHandler].urlType[@"news"];
+            if (preUrl == nil || [preUrl isEqualToString:@""]) {
+                return;
+            }
+        }
+        url = [preUrl stringByAppendingString:[info.id encodeToPercentEscapeString]];
+    }
+    WebViewController *webViewVC = [[WebViewController alloc] initWithURL:url type:WebViewBackTool | WebViewFontTool];
+    webViewVC.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:webViewVC animated:YES];
 }
 
 

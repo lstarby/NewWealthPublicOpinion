@@ -56,6 +56,7 @@
 }
 
 - (void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
     if (self.imgArray.count == 0) {
         [MBProgressHUD showTextHUD:@"请设置图片"];
         [self dismissViewControllerAnimated:YES completion:nil];

@@ -16,6 +16,7 @@
 #import "UserInfoViewController.h"
 #import "OrderServiceViewController.h"
 #import "FavoriteViewController.h"
+#import "SetingViewController.h"
 
 @interface UserCenterViewController ()
 
@@ -114,7 +115,7 @@ static NSString *userCenterCell     = @"userCenterCell";
             pushVC = [[FavoriteViewController alloc] init];
             break;
         default:
-            pushVC = [[UserInfoViewController alloc] init];
+            pushVC = [[SetingViewController alloc] init];
             break;
     }
     [(UINavigationController *)self.mm_drawerController.centerViewController pushViewController:pushVC animated:YES];

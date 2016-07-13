@@ -117,4 +117,9 @@
  */
 + (NSString *)documentPath;
 
+//获取缓存大小
++ (NSString *)getCacheSpace;
+
+//清除缓存
++ (void)clearCache;
 @end

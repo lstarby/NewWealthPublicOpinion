@@ -14,6 +14,8 @@
 #import <DBImageView/DBImageView.h>
 #import "NSString+Extend.h"
 #import "UtilsHeader.h"
+#import "WebViewController.h"
+#import "UserHandler.h"
 
 @interface DefaultNewsViewController ()<UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate>
 
@@ -60,7 +62,7 @@ static NSString *defaultNewsCell = @"DefaultNewsTableViewCell";
     __weak typeof(self) weakSelf = self;
     [self.tableView addHeaderRefresh:^{
         weakSelf.currentPage = 1;
-        [weakSelf.dataSource removeAllObjects];
+        
         [weakSelf requestInformation];
         
     } beginRefreshing:NO];
@@ -80,6 +82,9 @@ static NSString *defaultNewsCell = @"DefaultNewsTableViewCell";
         if ([returnData[kStatus] intValue] == kSuccess) {
             NSError* error = nil;
             NSArray *array = [returnData objectForKey:@"items"];
+            if (weakSelf.currentPage == 1) {
+                [weakSelf.dataSource removeAllObjects];
+            }
             for (NSDictionary *dict in array)
             {
                 InfoModel *info = [[InfoModel alloc] initWithDictionary:dict error:&error];
@@ -112,6 +117,7 @@ static NSString *defaultNewsCell = @"DefaultNewsTableViewCell";
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
     [HttpManager cancelAllNetWorking];
 }
 
@@ -147,7 +153,15 @@ static NSString *defaultNewsCell = @"DefaultNewsTableViewCell";
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
+    InfoModel *info = self.dataSource[indexPath.row];
+    NSString *preUrl = [UserHandler sharedUserHandler].urlType[@"news"];
+    if (preUrl == nil || [preUrl isEqualToString:@""]) {
+        return;
+    }
+    NSString * strUrl = [preUrl stringByAppendingString:[info.id encodeToPercentEscapeString]];
+    WebViewController *webViewVC = [[WebViewController alloc] initWithURL:strUrl type:WebViewBackTool | WebViewFontTool];
+    webViewVC.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:webViewVC animated:YES];
 }
 
 #pragma mark - UIScrollViewDelegate

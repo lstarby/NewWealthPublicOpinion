@@ -22,7 +22,7 @@
     self = [super init];
     if(self){
         self.frame = CGRectMake(0, 0, kSCREEN_WIDTH, kSCREEN_HEIGHT);
-        self.backgroundColor = COLOR_SHEET_BKGROUND;
+        self.backgroundColor = [UIColor clearColor];
         self.bgView = [[UIView alloc] initWithFrame:CGRectMake(0, self.frame.size.height,self.frame.size.width , height)];
         self.bgView.backgroundColor = COLOR_SHEET_VIEW;
         self.listData = list;
@@ -47,7 +47,7 @@
     tapGesture.delegate = self;
     __weak typeof(self) weakSelf = self;
     [UIView animateWithDuration:.25 animations:^{
-        weakSelf.alpha = 0.4;
+        weakSelf.backgroundColor = COLOR_SHEET_BKGROUND;
         [UIView animateWithDuration:.25 animations:^{
             [weakSelf.bgView setFrame:CGRectMake(weakSelf.bgView.frame.origin.x, kSCREEN_HEIGHT - weakSelf.bgView.frame.size.height, weakSelf.bgView.frame.size.width, weakSelf.bgView.frame.size.height)];
         }];

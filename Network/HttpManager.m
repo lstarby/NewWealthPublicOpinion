@@ -433,6 +433,71 @@
     }];
 }
 
+//预警推送提醒设置
++ (void)requestPush:(BOOL)isPush SuccessBlock:(SuccessBlock)successBlock failureBlock:(FailureBlock)failureBlock {
+    NSString *url = [HttpManager getRequestURL:kPush];
+    NSString *userId = [UserHandler sharedUserHandler].loginUser.userId;
+    if (userId == nil || [userId isEqualToString:@""]) {
+        return;
+    }
+    NSDictionary *parame = @{@"userId":userId,
+                             @"isPush":[NSString stringWithFormat:@"%d",isPush] };
+    [NetworkManager getRequestWithURL:url params:parame showHUD:NO progressBlock:nil successBlock:^(NSDictionary *returnData) {
+        if (successBlock) {
+            successBlock(returnData);
+        }
+    } failureBlock:^(NSError *error) {
+        [self requestFailed:error];
+        if (failureBlock) {
+            failureBlock(error);
+        }
+    }];
+}
+
+//其它推送提醒设置
++ (void)requestOtherPush:(NSString *)pushID isPush:(BOOL)isPush SuccessBlock:(SuccessBlock)successBlock failureBlock:(FailureBlock)failureBlock {
+    NSString *url = [HttpManager getRequestURL:kOtherPush];
+    NSString *userId = [UserHandler sharedUserHandler].loginUser.userId;
+    if (userId == nil || [userId isEqualToString:@""]) {
+        return;
+    }
+    NSDictionary *parame = @{@"userId":userId,
+                             @"isPush":[NSString stringWithFormat:@"%d",isPush],
+                             @"clientType":@"ios",
+                             @"type":pushID};
+    [NetworkManager getRequestWithURL:url params:parame showHUD:NO progressBlock:nil successBlock:^(NSDictionary *returnData) {
+        if (successBlock) {
+            successBlock(returnData);
+        }
+    } failureBlock:^(NSError *error) {
+        [self requestFailed:error];
+        if (failureBlock) {
+            failureBlock(error);
+        }
+    }];
+}
+
+//意见反馈
++ (void)requestFeedback:(NSString *)content SuccessBlock:(SuccessBlock)successBlock failureBlock:(FailureBlock)failureBlock {
+    NSString *url = [HttpManager getRequestURL:kFeedback];
+    NSString *userId = [UserHandler sharedUserHandler].loginUser.userId;
+    if (userId == nil || [userId isEqualToString:@""]) {
+        return;
+    }
+    NSDictionary *parame = @{@"userId":userId,
+                             @"feedQuestion":content};
+    [NetworkManager getRequestWithURL:url params:parame showHUD:NO progressBlock:nil successBlock:^(NSDictionary *returnData) {
+        if (successBlock) {
+            successBlock(returnData);
+        }
+    } failureBlock:^(NSError *error) {
+        [self requestFailed:error];
+        if (failureBlock) {
+            failureBlock(error);
+        }
+    }];
+}
+
 + (void)requestFailed:(NSError *)error{
     DLog(@"%ld/n%@",error.code,error.debugDescription);
     switch (error.code) {

@@ -28,4 +28,5 @@
 @property (copy, nonatomic  ) NSString<Optional> *ztFlag;
 @property (copy, nonatomic  ) NSString<Optional> *zxFlag;
 
+@property (copy, nonatomic  ) NSString<Optional> *zxType;
 @end

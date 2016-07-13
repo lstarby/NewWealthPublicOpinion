@@ -78,4 +78,14 @@
 //退出登录
 #define kLogout          @"gdsp/v1/app/user/loginOut"
 
+//预警推送提醒设置
+#define kPush            @"gdsp/v1/app/user/modify"
+
+//其它推送提醒设置
+#define kOtherPush       @"gdsp/v1/app/user/modifyPush"
+
+//意见反馈
+#define kFeedback        @"gdsp/v1/app/feedback/add"
+
+
 #endif /* HttpHeader_h */

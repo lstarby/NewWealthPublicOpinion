@@ -36,7 +36,7 @@
 + (void)saveUserInfo:(LoginUser *)user {
     [UserManager userAlreadyLogin];
     [UserHandler sharedUserHandler].loginUser = user;
-    [CacheManager writeFile:[CacheManager cachesRelativePath:FILE_USER_ACCOUNT] object:user];
+    [CacheManager writeFile:[CacheManager documentRelativePath:FILE_USER_ACCOUNT] object:user];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
@@ -47,7 +47,7 @@
  */
 + (void)saveUserChannel:(NSArray *)channelArray {
     [UserHandler sharedUserHandler].userChannels = channelArray;
-    [CacheManager writeFile:[CacheManager cachesRelativePath:FILE_USER_CHANNEL] objectArray:channelArray];
+    [CacheManager writeFile:[CacheManager documentRelativePath:FILE_USER_CHANNEL] objectArray:channelArray];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
@@ -64,7 +64,7 @@
         [keyWordDic setObject:sName forKey:sId];
     }
     [UserHandler sharedUserHandler].keyWordType = keyWordDic;
-    [CacheManager writeFile:[CacheManager cachesRelativePath:FILE_USER_KEYWORD] dict:keyWordDic];
+    [CacheManager writeFile:[CacheManager documentRelativePath:FILE_USER_KEYWORD] dict:keyWordDic];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
@@ -81,7 +81,7 @@
         [detailListDict setObject:strUrl forKey:type];
     }
     [UserHandler sharedUserHandler].urlType = detailListDict;
-    [CacheManager writeFile:[CacheManager cachesRelativePath:FILE_USER_URLTYPE] dict:detailListDict];
+    [CacheManager writeFile:[CacheManager documentRelativePath:FILE_USER_URLTYPE] dict:detailListDict];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
@@ -98,7 +98,7 @@
     userHandler.loginUser = nil;
     userHandler.userChannels = nil;
     userHandler.urlType = nil;
-    [CacheManager deleteFile:[CacheManager cachesRelativePath:FILE_USER_ACCOUNT]];
+    [CacheManager deleteFile:[CacheManager documentRelativePath:FILE_USER_ACCOUNT]];
 }
 
 /**
@@ -106,13 +106,13 @@
  */
 + (void)readUserInfo {
     UserHandler *userHandler = [UserHandler sharedUserHandler];
-    userHandler.loginUser = [CacheManager objectFromeFile:[CacheManager cachesRelativePath:FILE_USER_ACCOUNT]];
+    userHandler.loginUser = [CacheManager objectFromeFile:[CacheManager documentRelativePath:FILE_USER_ACCOUNT]];
     if (userHandler.loginUser) {
         [UserManager userAlreadyLogin];
     }
-    userHandler.keyWordType = [CacheManager dictFromFile:[CacheManager cachesRelativePath:FILE_USER_KEYWORD]];
-    userHandler.urlType = [CacheManager dictFromFile:[CacheManager cachesRelativePath:FILE_USER_URLTYPE]];
-    userHandler.userChannels = [CacheManager arrayFromFile:[CacheManager cachesRelativePath:FILE_USER_CHANNEL]];
+    userHandler.keyWordType = [CacheManager dictFromFile:[CacheManager documentRelativePath:FILE_USER_KEYWORD]];
+    userHandler.urlType = [CacheManager dictFromFile:[CacheManager documentRelativePath:FILE_USER_URLTYPE]];
+    userHandler.userChannels = [CacheManager arrayFromFile:[CacheManager documentRelativePath:FILE_USER_CHANNEL]];
     userHandler.userKey = [[NSUserDefaults standardUserDefaults] objectForKey:SAVE_USER_KEY];
     
 }

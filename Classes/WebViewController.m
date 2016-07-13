@@ -54,6 +54,7 @@
     [self.view addSubview:statusView];
 
     self.webView = [[ANWebView alloc] initWithFrame:CGRectMake(0, rect.size.height, kSCREEN_WIDTH, kSCREEN_HEIGHT - rect.size.height - 44)];
+    self.webView.delegate = self;
     [self.view addSubview:self.webView];
     [self.webView loadURLString:self.url];
 }
@@ -84,7 +85,7 @@
         [customButton addTarget:self action:@selector(collectButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
         UIBarButtonItem *collectButton = [[UIBarButtonItem alloc] initWithCustomView:customButton];
         [toolBarItems addObject:collectButton];
-        
+        [toolBarItems addObject:spaceButton];
         NSArray *array = [DBManager searchLikeNewsByUrl:self.collectDict[@"url"]];
         if (array.count) {
             customButton.selected = YES;
@@ -92,6 +93,7 @@
             customButton.selected = NO;
         }
     }
+    [toolBarItems removeLastObject];
     UIToolbar *toolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0.0, self.view.frame.size.height - 44.0, self.view.frame.size.width, 44.0)];
     toolBar.tintColor = [UIColor whiteColor];
     toolBar.barTintColor = COLOR_REDDEF;
@@ -256,15 +258,16 @@
 
 #pragma mark - ANWebViewDelegate
 - (void)anWebView:(ANWebView *)webview shouldStartLoadWithURL:(NSURL *)URL {
-    
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
 }
 
 - (void)anWebView:(ANWebView *)webview didFinishLoadingURL:(NSURL *)URL {
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     NSInteger font = [[UserManager getSystemFont] integerValue];
     [self.webView setTitleFont:font];
 }
 
 - (void)anWebView:(ANWebView *)webview didFailToLoadURL:(NSURL *)URL error:(NSError *)error {
-    
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 }
 @end

@@ -13,10 +13,10 @@
 @property (nonatomic, copy) NSString *address;
 @property (nonatomic, copy) NSString *clientType;
 @property (nonatomic, copy) NSString *email;
-@property (nonatomic, copy) NSString *isPush;               //是否推送
-@property (nonatomic, copy) NSString *isPushInformation;
-@property (nonatomic, copy) NSString *isPushReport;
-@property (nonatomic, copy) NSString *isPushWarning;
+@property (nonatomic, assign) BOOL isPush;               //是否推送
+@property (nonatomic, assign) BOOL isPushInformation;
+@property (nonatomic, assign) BOOL isPushReport;
+@property (nonatomic, assign) BOOL isPushWarning;
 @property (nonatomic, copy) NSString *mobile;
 @property (nonatomic, copy) NSString *name;                 //应用名称
 @property (nonatomic, copy) NSString *nickname;             //用户昵称

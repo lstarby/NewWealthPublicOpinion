@@ -166,7 +166,7 @@
 }
 
 - (void)rememberMeClicked:(UIButton *)sender {
-    NSString *remember = sender.isSelected ? @"1" : @"0";
+    NSString *remember = sender.isSelected ? @"0" : @"1";
     sender.selected = !sender.isSelected;
     [UserManager saveRememberMe:remember];
 }

@@ -25,7 +25,7 @@
 
 #define COLOR_CELL_BORDER [UIColor colorWithRed:240/255.0 green:240/255.0 blue:240/255.0 alpha:1].CGColor
 
-#define COLOR_SHEET_BKGROUND [UIColor colorWithRed:160.0/255.0 green:160.0/255.0 blue:160.0/255.0 alpha:0]
+#define COLOR_SHEET_BKGROUND [UIColor colorWithRed:160.0/255.0 green:160.0/255.0 blue:160.0/255.0 alpha:0.4]
 
 #define COLOR_SHEET_VIEW [UIColor colorWithRed:0xe2/255.0 green:0xe2/255.0 blue:0xe2/255.0 alpha:1]
 

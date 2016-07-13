@@ -40,20 +40,22 @@ static void *KINWebBrowserContext = &KINWebBrowserContext;
             [self.wkWebView setUIDelegate:self];
             [self.wkWebView setMultipleTouchEnabled:YES];
             [self.wkWebView setAutoresizesSubviews:YES];
+            self.wkWebView.backgroundColor = [UIColor whiteColor];
             [self.wkWebView.scrollView setAlwaysBounceVertical:YES];
             [self addSubview:self.wkWebView];
-            self.wkWebView.scrollView.bounces = NO;
+            self.wkWebView.scrollView.bounces = YES;
             [self.wkWebView addObserver:self forKeyPath:NSStringFromSelector(@selector(estimatedProgress)) options:0 context:KINWebBrowserContext];
         }
         else  {
             [self.uiWebView setFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
             [self.uiWebView setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
+            self.uiWebView.backgroundColor = [UIColor whiteColor];
             [self.uiWebView setDelegate:self];
             [self.uiWebView setMultipleTouchEnabled:YES];
             [self.uiWebView setAutoresizesSubviews:YES];
             [self.uiWebView setScalesPageToFit:YES];
             [self.uiWebView.scrollView setAlwaysBounceVertical:YES];
-            self.uiWebView.scrollView.bounces = NO;
+            self.uiWebView.scrollView.bounces = YES;
             [self addSubview:self.uiWebView];
         }
         

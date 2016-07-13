@@ -174,4 +174,56 @@
     return [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
 }
 
+//清除缓存
++ (void)clearCache {
+    NSString *cachPath = [self cachesPath];
+    NSArray *files = [[NSFileManager defaultManager] subpathsAtPath:cachPath];
+    for (NSString *file in files) {
+        NSError *error;
+        NSString *path = [cachPath stringByAppendingPathComponent:file];
+        
+        if ([[NSFileManager defaultManager] fileExistsAtPath:path]) {
+            [[NSFileManager defaultManager] removeItemAtPath:path error:&error];
+        }
+    }
+}
+
+
+//获取缓存大小
++ (NSString *)getCacheSpace {
+    NSString *path = [self cachesPath];
+    DLog(@"cachesPath->>%@",path);
+    float cache = [self folderSizeAtPath:path];
+    NSString *strDistance=[NSString stringWithFormat:@"%.2f", cache];
+    DLog(@"%@",strDistance);
+    if ( strDistance == nil ) {
+        strDistance = @"0 M";
+    }
+    else {
+        strDistance = [strDistance stringByAppendingString:@" M"];
+    }
+    return strDistance;
+}
+
++ (float ) folderSizeAtPath:(NSString*) folderPath{
+    NSFileManager* manager = [NSFileManager defaultManager];
+    if (![manager fileExistsAtPath:folderPath]) return 0;
+    NSEnumerator *childFilesEnumerator = [[manager subpathsAtPath:folderPath] objectEnumerator];
+    NSString* fileName;
+    long long folderSize = 0;
+    while ((fileName = [childFilesEnumerator nextObject]) != nil){
+        NSString* fileAbsolutePath = [folderPath stringByAppendingPathComponent:fileName];
+        folderSize += [self fileSizeAtPath:fileAbsolutePath];
+    }
+    return folderSize/(1024.0*1024.0);
+}
+
++ (long long) fileSizeAtPath:(NSString*) filePath{
+    NSFileManager* manager = [NSFileManager defaultManager];
+    if ([manager fileExistsAtPath:filePath]){
+        return [[manager attributesOfItemAtPath:filePath error:nil] fileSize];
+    }
+    return 0;
+}
+
 @end

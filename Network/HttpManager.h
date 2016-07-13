@@ -77,4 +77,13 @@ typedef void (^FailureBlock)(NSError *error);
 //退出登录
 + (void)requestLogoutSuccessBlock:(SuccessBlock)successBlock failureBlock:(FailureBlock)failureBlock;
 
+//预警推送提醒设置
++ (void)requestPush:(BOOL)isPush SuccessBlock:(SuccessBlock)successBlock failureBlock:(FailureBlock)failureBlock;
+
+//其它推送提醒设置
++ (void)requestOtherPush:(NSString *)pushID isPush:(BOOL)isPush SuccessBlock:(SuccessBlock)successBlock failureBlock:(FailureBlock)failureBlock;
+
+//意见反馈
++ (void)requestFeedback:(NSString *)content SuccessBlock:(SuccessBlock)successBlock failureBlock:(FailureBlock)failureBlock;
+
 @end
